@@ -1,2 +1,6 @@
 # Illustrations_lectures
-Here we draw the illustrations for the course 'Theory of Probability'
+Мы иллюстрировали лекции, которые читаются в рамках курса 'Теория вероятности и статистика'.
+
+LaTex документ можно найти по ссылке: https://www.overleaf.com/read/mbfykjhcbnjf
+
+Работу выполнили: Пономаренко Анна, Пешков Максим и Никитанова Мария.
