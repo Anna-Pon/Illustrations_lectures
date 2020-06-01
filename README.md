@@ -1,4 +1,5 @@
-# Illustrations_lectures
+# LaTex Tikz illustrations
+
 Мы иллюстрировали лекции, которые читаются в рамках курса 'Теория вероятности и статистика'.
 
 LaTex документ можно найти по ссылке: https://www.overleaf.com/read/mbfykjhcbnjf
