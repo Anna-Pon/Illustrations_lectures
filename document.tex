@@ -1,0 +1,1510 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{pgfplots}
+\usepackage{mathtools,amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[russian,english]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[left=20mm, top=20mm, right=20mm, bottom=20mm, nohead, foot = 8mm]{geometry}
+\usepackage{tkz-euclide}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[T2A]{fontenc}
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+%Code listing style named "mystyle"
+\lstset{commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\bfseries\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2, language=[LaTeX]TeX}
+  
+  \lstset{
+  literate={а}{{\selectfont\char224}}1
+           {б}{{\selectfont\char225}}1
+           {в}{{\selectfont\char226}}1
+           {г}{{\selectfont\char227}}1
+           {д}{{\selectfont\char228}}1
+           {е}{{\selectfont\char229}}1
+           {ё}{{\"e}}1
+           {ж}{{\selectfont\char230}}1
+           {з}{{\selectfont\char231}}1
+           {и}{{\selectfont\char232}}1
+           {й}{{\selectfont\char233}}1
+           {к}{{\selectfont\char234}}1
+           {л}{{\selectfont\char235}}1
+           {м}{{\selectfont\char236}}1
+           {н}{{\selectfont\char237}}1
+           {о}{{\selectfont\char238}}1
+           {п}{{\selectfont\char239}}1
+           {р}{{\selectfont\char240}}1
+           {с}{{\selectfont\char241}}1
+           {т}{{\selectfont\char242}}1
+           {у}{{\selectfont\char243}}1
+           {ф}{{\selectfont\char244}}1
+           {х}{{\selectfont\char245}}1
+           {ц}{{\selectfont\char246}}1
+           {ч}{{\selectfont\char247}}1
+           {ш}{{\selectfont\char248}}1
+           {щ}{{\selectfont\char249}}1
+           {ъ}{{\selectfont\char250}}1
+           {ы}{{\selectfont\char251}}1
+           {ь}{{\selectfont\char252}}1
+           {э}{{\selectfont\char253}}1
+           {ю}{{\selectfont\char254}}1
+           {я}{{\selectfont\char255}}1
+           {А}{{\selectfont\char192}}1
+           {Б}{{\selectfont\char193}}1
+           {В}{{\selectfont\char194}}1
+           {Г}{{\selectfont\char195}}1
+           {Д}{{\selectfont\char196}}1
+           {Е}{{\selectfont\char197}}1
+           {Ё}{{\"E}}1
+           {Ж}{{\selectfont\char198}}1
+           {З}{{\selectfont\char199}}1
+           {И}{{\selectfont\char200}}1
+           {Й}{{\selectfont\char201}}1
+           {К}{{\selectfont\char202}}1
+           {Л}{{\selectfont\char203}}1
+           {М}{{\selectfont\char204}}1
+           {Н}{{\selectfont\char205}}1
+           {О}{{\selectfont\char206}}1
+           {П}{{\selectfont\char207}}1
+           {Р}{{\selectfont\char208}}1
+           {С}{{\selectfont\char209}}1
+           {Т}{{\selectfont\char210}}1
+           {У}{{\selectfont\char211}}1
+           {Ф}{{\selectfont\char212}}1
+           {Х}{{\selectfont\char213}}1
+           {Ц}{{\selectfont\char214}}1
+           {Ч}{{\selectfont\char215}}1
+           {Ш}{{\selectfont\char216}}1
+           {Щ}{{\selectfont\char217}}1
+           {Ъ}{{\selectfont\char218}}1
+           {Ы}{{\selectfont\char219}}1
+           {Ь}{{\selectfont\char220}}1
+           {Э}{{\selectfont\char221}}1
+           {Ю}{{\selectfont\char222}}1
+           {Я}{{\selectfont\char223}}1
+}
+  
+\pgfplotsset{compat=1.7}
+
+\begin{document}
+
+\noindent\rule{16.5cm}{0.4pt}
+
+\LARGE
+\begin{center}
+\textbf{Иллюстрации к лекциям по курсу \\
+	'Теория Вероятностей и Математическая Статистика''}
+\end{center}
+\normalsize
+
+\noindent\rule{16.5cm}{0.4pt}
+\begin{flushright}
+\textit{Сделали с любовью: \\ 
+Никитанова Мария\\
+Пешков Максим\\
+Пономаренко Анна}
+\end{flushright}
+
+
+\tableofcontents
+\clearpage
+
+\section{Использованные пакеты}
+
+\begin{lstlisting}
+
+\usepackage{pgfplots}
+\usepackage{mathtools,amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[russian,english]{babel}
+\usepackage{tkz-euclide}
+
+\end{lstlisting}
+\clearpage
+
+\section{Дискретные распределения}
+
+\subsection{Распределение Пуассона}
+
+\textbf{Функция вероятности}
+\begin{equation*}
+  P(\lambda, k) = \dfrac{\lambda^k \cdot e^{-\lambda}}{k!} 
+\end{equation*}
+
+\pgfmathdeclarefunction{poiss}{1}{%
+  \pgfmathparse{(#1^x)*exp(-#1)/(x!)}%
+}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+              axis x line=center,
+              axis y line=center,
+              xtick={0,2,...,19},
+              ytick={0.1,0.2,...,0.4},
+                domain = 0:18,
+                samples = 19,
+                xlabel={$k$},
+                ylabel={$P(\lambda,k)$},
+                xlabel style={right},
+                ylabel style={above left},
+                ymax=0.5,
+                xmax=20,
+                x post scale=1.4,
+                grid = major
+                ]
+                \addplot+[ycomb,blue,thick] {poiss(1))};
+                \addlegendentry{$\lambda = 1$}
+                \addplot+[ycomb,red,thick] {poiss(5))};
+                 \addlegendentry{$\lambda = 5$}
+                \addplot+[ycomb,brown,thick] {poiss(9))};
+                 \addlegendentry{$\lambda = 9$};
+            \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\pgfmathdeclarefunction{poiss}{1}{%
+  \pgfmathparse{(#1^x)*exp(-#1)/(x!)}}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+              axis x line=center,
+              axis y line=center,
+              xtick={0,2,...,19},
+              ytick={0.1,0.2,...,0.4},
+                domain = 0:18,
+                samples = 19,
+                xlabel={$k$},
+                ylabel={$P(\lambda,k)$},
+                xlabel style={right},
+                ylabel style={above left},
+                ymax=0.5,xmax=20,x post scale=1.4,grid = major]
+                \addplot+[ycomb,blue,thick] {poiss(1))};
+                \addlegendentry{$\lambda = 1$}
+                \addplot+[ycomb,red,thick] {poiss(5))};
+                 \addlegendentry{$\lambda = 5$}
+                \addplot+[ycomb,brown,thick] {poiss(9))};
+                 \addlegendentry{$\lambda = 9$};
+            \end{axis}
+\end{tikzpicture}
+\end{center}
+\end{lstlisting}
+
+\clearpage
+
+\subsection{Биномиальное распределение}
+
+\textbf{Функция вероятности}
+
+\begin{equation*}
+    P(X=k) = C_n^k \cdot p^k \cdot (1-p)^{n-k}
+\end{equation*}
+
+\pgfmathdeclarefunction{binom}{2}{\pgfmathparse{
+(((#2)!)/(((#2-x)!)*(x!))) * ((#1)^x) * (1-#1)^(#2-x)}%
+}
+\begin{center}
+\begin{tikzpicture}
+
+\begin{axis}[axis x line=center,
+              axis y line=center,
+                domain = 0:30,
+                samples = 31,
+                ytick = {0,0.05,0.1,...,0.5},
+                xlabel={$k$},
+                ylabel={$P(X = k)$},
+                xlabel style={right},
+                ylabel style={above left},
+                grid = major,
+                x post scale=1.6]
+\addplot+[ycomb,blue,thick]{binom(0.5, 20)} \closedcycle;
+\addlegendentry{$n=20, p=0.5$};
+\addplot+[ycomb,red,thick]{binom(0.75, 20)} \closedcycle;
+\addlegendentry{$n=20, p=0.75$};
+\addplot+[ycomb,green,thick]{binom(0.5, 40)} \closedcycle;
+\addlegendentry{$n=40, p=0.5$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\pgfmathdeclarefunction{binom}{2}{\pgfmathparse{
+(((#2)!)/(((#2-x)!)*(x!))) * ((#1)^x) * (1-#1)^(#2-x)}%
+}
+\begin{center}
+\begin{tikzpicture}
+
+\begin{axis}[axis x line=center,
+              axis y line=center,
+                domain = 0:30,
+                samples = 31,
+                ytick = {0,0.05,0.1,...,0.5},
+                xlabel={$k$},
+                ylabel={$P(X = k)$},
+                xlabel style={right},
+                ylabel style={above left},
+                x post scale=1.6,
+                grid = major]
+\addplot+[ycomb,blue,thick]  {binom(0.5, 20)} \closedcycle;
+\addlegendentry{$n=20, p=0.5$};
+\addplot+[ycomb,red,thick]  {binom(0.75, 20)} \closedcycle;
+\addlegendentry{$n=20, p=0.75$};
+\addplot+[ycomb,green,thick]  {binom(0.5, 40)} \closedcycle;
+\addlegendentry{$n=40, p=0.5$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{lstlisting}
+
+\clearpage
+\subsection{Геометрическое распределение}
+
+\textbf{Функция вероятности}
+
+\begin{equation*}
+    P(X=k) = p\cdot(1-p)^{k-1}
+\end{equation*}
+
+\pgfmathdeclarefunction{geom}{1}{\pgfmathparse{( 1 - #1 ) ^ ( x - 1) * #1}%
+}
+\begin{center}
+\begin{tikzpicture}
+
+\begin{axis}[axis x line=center,
+              axis y line=center,
+              xtick={1,2,...,10},
+              ytick={0.1, 0.2,...,1},
+                domain = 1:10,
+                samples = 10,
+                xlabel={$k$},
+                ylabel={$P(X = k)$},
+                xlabel style={right},
+                ylabel style={above left},
+                ymax=1,
+                xmax=11,
+                x post scale=1.4,
+                grid = major]
+\addplot+[ycomb,blue,thick]  {geom(0.8)} \closedcycle;
+\addlegendentry{$p = 0.8$};
+\addplot+[ycomb,red,thick]  {geom(0.5)} \closedcycle;
+\addlegendentry{$p = 0.5$};
+\addplot+[ycomb,black,thick]  {geom(0.3)} \closedcycle;
+\addlegendentry{$p = 0.3$};
+\addplot[blue,thick]  {geom(0.8)};
+\addplot[red,thick]  {geom(0.5)}; 
+\addplot[black,thick]  {geom(0.3)};
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\pgfmathdeclarefunction{geom}{1}{\pgfmathparse{( 1 - #1 ) ^ ( x - 1) * #1}}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[axis x line=center,
+              axis y line=center,
+              xtick={1,2,...,10},
+              ytick={0.1, 0.2,...,1},
+                domain = 1:10,
+                samples = 10,
+                xlabel={$k$},
+                ylabel={$P(X = k)$},
+                xlabel style={right},
+                ylabel style={above left},
+                ymax=1,
+                xmax=11,
+                x post scale=1.4,
+                grid = major]
+\addplot+[ycomb,blue,thick]  {geom(0.8)} \closedcycle;
+\addlegendentry{$p = 0.8$};
+\addplot+[ycomb,red,thick]  {geom(0.5)} \closedcycle;
+\addlegendentry{$p = 0.5$};
+\addplot+[ycomb,black,thick]  {geom(0.3)} \closedcycle;
+\addlegendentry{$p = 0.3$};
+\addplot[blue,thick]  {geom(0.8)};
+\addplot[red,thick]  {geom(0.5)}; 
+\addplot[black,thick]  {geom(0.3)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{lstlisting}
+
+\clearpage
+
+\section{Непрерывные распределения}
+
+\subsection{Равномерное распределение}
+
+\subsubsection{Функция плотности}
+
+\begin{equation*}
+ f (x) =
+     \begin{cases}
+     \dfrac{1}{b-a} &, x \in [a,b] \\
+     0 &, x \notin [a,b]
+     \end{cases}
+ \end{equation*}
+\begin{center}
+\begin{tikzpicture}[
+    declare function={unipdf(\x,\xl,\xu)= (\x>=\xl)*(\x<\xu)*1/(\xu-\xl);}
+]
+
+\begin{axis}[axis x line=center,
+            axis y line = left,
+                ymin=0,ymax=1,
+                xmin=-5, xmax=5,
+                samples = 500,
+                xlabel={$x$},
+                ylabel={$f(x)$},
+                xlabel style={right},
+                ylabel style={above left},
+                x post scale=1.4,
+                grid = major
+]
+\addplot [very thick, orange] {unipdf(x,0,2)};
+\addlegendentry{$a=0, b=2$};
+\addplot [very thick,blue] {unipdf(x,-3,1)};
+\addlegendentry{$a=-3, b=1$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\begin{center}
+\begin{tikzpicture}[
+    declare function={unipdf(\x,\xl,\xu)= (\x>=\xl)*(\x<\xu)*1/(\xu-\xl);}
+]
+
+\begin{axis}[axis x line=center,
+            axis y line = left,
+                ymin=0,ymax=1,
+                xmin=-5, xmax=5,
+                samples = 500,
+                xlabel={$x$},
+                ylabel={$f(x)$},
+                xlabel style={right},
+                ylabel style={above left},
+                x post scale=1.4,
+                grid = major
+]
+\addplot [very thick, orange] {unipdf(x,0,2)};
+\addlegendentry{$a=0, b=2$};
+\addplot [very thick,blue] {unipdf(x,-3,1)};
+\addlegendentry{$a=-3, b=1$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{lstlisting}
+
+\clearpage
+
+\subsubsection{Функция распределения}
+
+\begin{equation*}
+ F (x) =
+     \begin{cases}
+     1 &, x > b \\
+     \dfrac{x-a}{b-a} &, x \in [a,b] \\
+     0 &, x < a
+     \end{cases}
+ \end{equation*}
+ 
+\begin{center}
+\begin{tikzpicture}[
+    declare function={unip(\x,\xl,\xu)= (\x>=\xl)*(\x<\xu)*(\x-\xl)/(\xu-\xl) + (\x>\xu);}
+]
+
+\begin{axis}[axis x line=center,
+              axis y line=left,
+                samples = 200,
+                ymax = 1.2,
+                xlabel={$x$},
+                ylabel={$F(x)$},
+                xlabel style={right},
+                ylabel style={above left},
+                x post scale=1.3,
+                grid = major, legend pos=south east
+]
+\addplot [orange] {unip(x,0,2)};
+\addlegendentry{$a=0, b=2$};
+\addplot [blue] {unip(x,-3,1)};
+\addlegendentry{$a=-3, b=1$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\begin{center}
+\begin{tikzpicture}[
+    declare function={unip(\x,\xl,\xu)= (\x>=\xl)*(\x<\xu)*(\x-\xl)/(\xu-\xl) + (\x>\xu);}
+]
+
+\begin{axis}[axis x line=center,
+              axis y line=left,
+                samples = 200,
+                ymax = 1.2,
+                xlabel={$x$},
+                ylabel={$F(x)$},
+                xlabel style={right},
+                ylabel style={above left},
+                x post scale=1.3,
+                grid = major, legend pos=south east
+]
+\addplot [orange] {unip(x,0,2)};
+\addlegendentry{$a=0, b=2$};
+\addplot [blue] {unip(x,-3,1)};
+\addlegendentry{$a=-3, b=1$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{lstlisting}
+
+
+\clearpage
+
+\subsection{Экспоненциальное распределение}
+
+\subsubsection{Функция плотности}
+ \begin{equation*}
+ f ( x ; \lambda ) =
+     \begin{cases}
+     \lambda e ^ { - \lambda x } &, x \geq 0 \\
+     0 &, x \leq 0
+     \end{cases}
+ \end{equation*}
+
+\pgfmathdeclarefunction{expon}{1}{\pgfmathparse{ #1 * exp(- (#1 * x))}%
+}
+
+\begin{center}
+\begin{tikzpicture}
+
+\begin{axis}[no markers, domain=0:10, samples=100, xlabel={x}, enlargelimits=false,
+height=7cm, width=10cm, clip=false, axis on top, ylabel=$f(x)$,
+grid = major]
+\addplot [domain=0:7, color = blue] {expon(0.5)} \closedcycle;
+\addlegendentry{$ \lambda = 0.5$};
+\addplot [domain=0:7, color = red] {expon(1.0)} \closedcycle;
+\addlegendentry{$ \lambda = 1.0$};
+\addplot [domain=0:7] {expon(1.5)} \closedcycle;
+\addlegendentry{$ \lambda = 1.5$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\pgfmathdeclarefunction{exp}{1}{\pgfmathparse{exp(-#1 * x)}%}
+
+\begin{tikzpicture}
+\begin{axis}
+[no markers, domain=0:10,
+samples=100, xlabel={x}, enlargelimits=false,
+height=7cm, width=7cm, ylabel=$f(x)$,
+clip=false, axis on top, grid = major]
+   \addplot [domain=1:10, color = blue] {expon(0.5)} \closedcycle;
+     \addlegendentry{$ \lambda = 0.5$};
+  \addplot [domain=1:10, color = red] {expon(1,0)} \closedcycle;
+     \addlegendentry{$ \lambda = 1.0$};
+  \addplot [domain=1:10] {expon(1.5)} \closedcycle;
+     \addlegendentry{$ \lambda = 1.5$};
+\end{axis}
+\end{tikzpicture}
+\end{lstlisting}
+
+\clearpage
+
+\subsubsection{Функция распределения}
+
+ \begin{equation*}
+ f ( x ; \lambda ) =
+     \begin{cases}
+     1 - e ^ { - \lambda x } &, x \geq 0 \\
+     0 &, x \leq 0
+     \end{cases}
+ \end{equation*}
+
+\pgfmathdeclarefunction{expondist}{1}{\pgfmathparse{ 1 -  exp(- (#1 * x))}%
+}
+
+\begin{center}
+\begin{tikzpicture}
+
+\begin{axis}[no markers, domain=0:10, samples=100, xlabel={x}, enlargelimits=false, ylabel=$F(x)$,
+height=8cm, width=8cm, clip=false, axis on top,
+grid = major, legend pos=south east]
+\addplot [domain=0:7, color = blue] {expondist(0.5)} \closedcycle;
+\addlegendentry{$ \lambda = 0.5$};
+\addplot [domain=0:7, color = red] {expondist(1.0)} \closedcycle;
+\addlegendentry{$ \lambda = 1.0$};
+\addplot [domain=0:7] {expondist(1.5)} \closedcycle;
+\addlegendentry{$ \lambda = 1.5$};
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\pgfmathdeclarefunction{expondist}{1}{\pgfmathparse{ 1 -  exp(- (#1 * x))}%}
+
+\begin{tikzpicture}
+\begin{axis}[no markers,
+domain=0:10, samples=100, xlabel={x}, enlargelimits=false, ylabel=$F(x)$,
+height=8cm, width=8cm, clip=false, axis on top, legend pos=south east,
+grid = major]
+  \addplot [domain=0:7, color = blue] {expondist(0.5)} \closedcycle;
+    \addlegendentry{$ \lambda = 0.5$};
+  \addplot [domain=0:7, color = red] {expondist(1.0)} \closedcycle;
+    \addlegendentry{$ \lambda = 1.0$};
+  \addplot [domain=0:7] {expondist(1.5)} \closedcycle;
+    \addlegendentry{$ \lambda = 1.5$};
+\end{axis}
+\end{tikzpicture}
+
+\end{lstlisting}
+
+\clearpage
+
+\subsection{Нормальное распределение}
+
+\textbf{Функция плотности}
+\begin{equation*}
+  f(x, \mu, \sigma) = \dfrac{1}{\sigma \cdot \sqrt{2\pi}} \cdot e^{\dfrac{-(x-\mu)^2}{2\sigma^2}} 
+\end{equation*}
+
+
+\pgfmathdeclarefunction{gauss}{2}{\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+\begin{center}
+\begin{tikzpicture}
+
+\begin{axis}[no markers, domain=0:10, samples=100,
+axis lines*=left, xlabel=x,ylabel=$f(x)$,
+height=10cm, width=12cm,
+ytick={0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0},
+enlargelimits=false, clip=false, axis on top,
+grid = major]
+\addplot [domain=-3:3] {gauss(0,1)} \closedcycle;
+\addlegendentry{$\mu = 0, \sigma^2 = 1$};
+\addplot [domain=-3:3, color = red] {gauss(0,0.5)} \closedcycle;
+\addlegendentry{$\mu = 0, \sigma^2 = 0.5$};
+\addplot [domain=-3:3, color = blue] {gauss(0,1.5)} \closedcycle;
+\addlegendentry{$\mu = 0, \sigma^2 = 1.5$};
+\addplot [domain=-3:3, color = violet] {gauss(1,1)} \closedcycle;
+\addlegendentry{$\mu = 1, \sigma^2 = 1$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\pgfmathdeclarefunction{gauss}{2}{\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[no markers, domain=0:10, samples=100,axis lines*=left, xlabel=x, ylabel = $f(x)$, 
+height=10cm, width=12cm, ytick={0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0},enlargelimits=false, clip=false, axis on top, grid = major]
+\addplot [domain=-3:3] {gauss(0,1)};
+\addlegendentry{$\mu = 0, \sigma^2 = 1$};
+\addplot [domain=-3:3, color = red] {gauss(0,0.5)};
+\addlegendentry{$\mu = 0, \sigma^2 = 0.5$};
+\addplot [domain=-3:3, color = blue] {gauss(0,1.5)};
+\addlegendentry{$\mu = 0, \sigma^2 = 1.5$};
+\addplot [domain=-3:3, color = violet] {gauss(1,1)};
+\addlegendentry{$\mu = 1, \sigma^2 = 1$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{lstlisting}
+
+\clearpage
+
+\subsection{Многомерное нормальное распределение}
+
+\textbf{Функция плотности}
+\begin{equation*}
+    f(x,y) = \dfrac{1}{2 \pi \cdot \sigma_x \cdot \sigma_y} \cdot e^{-\dfrac{1}{2} \cdot 
+    \left(
+    \dfrac{(x-\mu_x)^2}{\sigma_x^2} +
+    \dfrac{(y-\mu_y)^2}{\sigma_y^2}
+    \right)}
+\end{equation*}
+
+
+\pgfmathdeclarefunction{norm2}{4}{%
+  \pgfmathparse{(1/(2*pi*#2*#4))* exp((-0.5)*(((x-#1)/#2)^2+((y-#3)/#4)^2))}%
+}
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	height=10cm, width=12cm,
+	xlabel=$x$,
+	ylabel=$F(x)$]
+	\addplot3[surf,domain=-3:3] {norm2(0,1,0,1)};
+	\addlegendentry{$\mu_1 = 0, \sigma_1 = 1,\mu_2=0, \sigma_2=1$};
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\pgfmathdeclarefunction{norm2}{4}{%
+  \pgfmathparse{(1/(2*pi*#2*#4))* exp((-0.5)*(((x-#1)/#2)^2+((y-#3)/#4)^2))}%
+}
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	height=10cm, width=12cm,
+	xlabel=$x$,
+	ylabel=$F(x)$]
+	\addplot3[surf,domain=-3:3] {norm2(0,1,0,1)};
+	\addlegendentry{$\mu_1 = 0, \sigma_1 = 1,\mu_2=0, \sigma_2=1$};
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{lstlisting}
+
+\clearpage
+
+\subsection{Парето распределение}
+\subsubsection{Функция плотности}
+\begin{center}
+$ f(x) = \dfrac{k\cdot x_m ^k}{x^{k + 1}}$
+\pgfmathdeclarefunction{pareto}{2}{\pgfmathparse{( #1 * #2 ^ ( #1 ) / ( x ^ (#1 + 1)))}}
+
+\begin{tikzpicture}
+\begin{axis}[no markers, domain=0:10, samples=100, xlabel={x}, ylabel={$f(x)$}, legend pos=south east,  enlargelimits=false, ytick = {0, 0.5, ..., 3}, 
+height=8cm, width=10cm, clip=false, axis on top,
+grid = major]
+\addplot [domain=1:10, color = blue] {pareto(1, 1)} \closedcycle;
+\addlegendentry{$k = 1, x_m = 1$};
+\addplot [domain=1:10, color = black] {pareto(1, 2)} \closedcycle;
+\addlegendentry{$k = 1, x_m = 2$};
+\addplot [domain=1:10, color = green] {pareto(2, 1)} \closedcycle;
+\addlegendentry{$k = 2, x_m = 1$};
+\addplot [domain=1:10, color = violet] {pareto(3, 1)} \closedcycle;
+\addlegendentry{$k = 3, x_m = 1$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\pgfmathdeclarefunction{pareto}{1}{\pgfmathparse{( #1 * 1 ^ ( #1 ) / ( x ^ (#1 + 1)))}%
+}
+\begin{center}
+\begin{tikzpicture}
+
+\begin{axis}[no markers, domain=0:10, samples=100, xlabel={x}, ylabel={$f(x)$}, enlargelimits=false, legend pos=south east, ytick = {0, 0.5, ..., 3}, 
+height=8cm, width=10cm, clip=false, axis on top,
+grid = major]
+\addplot [domain=1:10, color = blue] {pareto(1, 1)} \closedcycle;
+\addlegendentry{$k = 1, x_m = 1$};
+\addplot [domain=1:10, color = black] {pareto(1, 2)} \closedcycle;
+\addlegendentry{$k = 1, x_m = 2$};
+\addplot [domain=1:10, color = green] {pareto(2, 1)} \closedcycle;
+\addlegendentry{$k = 2, x_m = 1$};
+\addplot [domain=1:10, color = violet] {pareto(3, 1)} \closedcycle;
+\addlegendentry{$k = 3, x_m = 1$};
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{lstlisting}
+\clearpage
+
+\subsubsection{Функция распределения}
+\begin{center}
+
+$F_X(x) = 1 - \left( \frac{x_m}{x}\right)^k$
+
+\end{center}
+
+\begin{center}
+\pgfmathdeclarefunction{paretof}{2}{\pgfmathparse{1 - (#2/x)^#1}}
+
+\begin{tikzpicture}
+\begin{axis}[no markers, domain=0:10, samples=100, xlabel={x}, ylabel={$P(X < x)$}, enlargelimits=false, ytick = {0, 0.5, ..., 3},
+height=8cm, width=10cm, clip=false, axis on top, legend pos=south east, 
+grid = major, ylabel = $F(x)$]
+\addplot [domain=1:10, color = blue] {paretof(1, 1)} \closedcycle;
+\addlegendentry{$k = 1, x_m = 1$};
+\addplot [domain=2:10, color = black] {paretof(1, 2)} \closedcycle;
+\addlegendentry{$k = 1, x_m = 2$};
+\addplot [domain=1:10, color = green] {paretof(2, 1)} \closedcycle;
+\addlegendentry{$k = 2, x_m = 1$};
+\addplot [domain=1:10, color = violet] {paretof(3, 1)} \closedcycle;
+\addlegendentry{$k = 3, x_m = 1$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\pgfmathdeclarefunction{paretof}{2}{\pgfmathparse{1 - (#2/x)^#1}}
+
+\begin{tikzpicture}
+\begin{axis}[no markers, domain=0:10, samples=100, xlabel={x}, ylabel={$P(X < x)$}, enlargelimits=false, ytick = {0, 0.5, ..., 3},
+height=8cm, width=10cm, clip=false, axis on top, legend pos=south east, ylim = 0
+grid = major]
+\addplot [domain=1:10, color = blue] {paretof(1, 1)} \closedcycle;
+\addlegendentry{$k = 1, x_m = 1$};
+\addplot [domain=1:10, color = black] {paretof(1, 2)} \closedcycle;
+\addlegendentry{$k = 1, x_m = 2$};
+\addplot [domain=1:10, color = green] {paretof(2, 1)} \closedcycle;
+\addlegendentry{$k = 2, x_m = 1$};
+\addplot [domain=1:10, color = violet] {paretof(3, 1)} \closedcycle;
+\addlegendentry{$k = 3, x_m = 1$};
+\end{axis}
+\end{tikzpicture}
+\end{lstlisting}
+
+\clearpage
+
+\subsection{Хи-квадрат распределение}
+
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[%
+    xlabel = $x$,
+     ylabel={$f(x)$},
+    samples = 200,
+    restrict y to domain = 0:0.5,
+    domain = 0.01:15]
+    \foreach \k in {1,...,8} {%
+      \addplot+[mark={}] gnuplot[raw gnuplot] {%
+        isint(x) = (int(x)==x);
+        log2 = 0.693147180559945;
+        chisq(x,k)=k<=0||!isint(k)?1/0:x<=0?0.0:exp((0.5*k-1.0)*log(x)-0.5*x-lgamma(0.5*k)-k*0.5*log2);
+        set xrange [1.00000e-5:15.0000];
+        set yrange [0.00000:0.500000];
+        samples=200;
+        plot chisq(x,\k)};
+        \addlegendentryexpanded{$k = \k$}}
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[%
+    xlabel = $x$,
+    ylabel =  ylabel={$f(x)$},
+    samples = 200,
+    restrict y to domain = 0:0.5,
+    domain = 0.01:15]
+    \foreach \k in {1,...,8} {%
+      \addplot+[mark={}] gnuplot[raw gnuplot] {%
+        isint(x) = (int(x)==x);
+        log2 = 0.693147180559945;
+        chisq(x,k)=k<=0||!isint(k)?1/0:x<=0?0.0:exp((0.5*k-1.0)*log(x)-0.5*x-lgamma(0.5*k)-k*0.5*log2);
+        set xrange [1.00000e-5:15.0000];
+        set yrange [0.00000:0.500000];
+        samples=200;
+        plot chisq(x,\k)};
+        \addlegendentryexpanded{$k = \k$}}
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\end{lstlisting}
+\clearpage
+
+\subsection{Распределение Стьюдента}
+\begin{center}
+\begin{tikzpicture}[
+    declare function={gamma(\z)=
+    2.506628274631*sqrt(1/\z)+ 0.20888568*(1/\z)^(1.5)+ 0.00870357*(1/\z)^(2.5)- (174.2106599*(1/\z)^(3.5))/25920- (715.6423511*(1/\z)^(4.5))/1244160)*exp((-ln(1/\z)-1)*\z;},
+    declare function={student(\x,\n)= gamma((\n+1)/2.)/(sqrt(\n*pi) *gamma(\n/2.)) *((1+(\x*\x)/\n)^(-(\n+1)/2.));}
+    ]
+    \begin{axis}
+    [xlabel = $x$, height=10cm, width=12cm, ylabel=$f(x)$
+    ytick={0.0, 0.1, 0.2, 0.3, 0.4, 0.5},
+    xmin=-10, xmax=10,
+    enlargelimits=false, clip=false, axis on top,
+    grid = major,
+        axis lines=left,
+        enlargelimits=upper,
+        samples=40
+    ]
+    \addplot [thick, smooth, domain=-10:10, color = red]{student(x,1)} \closedcycle;
+    \addlegendentry{$n = 1$};
+    \addplot [thick, smooth, domain=-10:10, color = blue]{student(x,5)} \closedcycle;
+    \addlegendentry{$n = 5$}
+    \addplot [thick, smooth, domain=-10:10, color = violet]{student(x,25)}
+    \closedcycle;
+    \addlegendentry{$n = 25$}
+    \addplot [thick, smooth, domain=-10:10, color = green]{student(x,100)}
+    \closedcycle;
+    \addlegendentry{$n = 100$}
+    \addplot [thick, smooth, domain=-10:10, color = black]{student(x,1000)}
+    \closedcycle;
+    \addlegendentry{$n = 1000$}
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\begin{center}
+\begin{tikzpicture}[
+    declare function={gamma(\z)=
+    2.506628274631*sqrt(1/\z)+ 0.20888568*(1/\z)^(1.5)+ 0.00870357*(1/\z)^(2.5)- (174.2106599*(1/\z)^(3.5))/25920- (715.6423511*(1/\z)^(4.5))/1244160)*exp((-ln(1/\z)-1)*\z;},
+    declare function={student(\x,\n)= gamma((\n+1)/2.)/(sqrt(\n*pi) *gamma(\n/2.)) *((1+(\x*\x)/\n)^(-(\n+1)/2.));}
+]
+
+\begin{axis}[xlabel = $x$, height=10cm, width=12cm, ylabel=$f(x)$
+ytick={0.0, 0.1, 0.2, 0.3, 0.4, 0.5},
+enlargelimits=false, clip=false, axis on top,
+grid = major
+    axis lines=left,
+    enlargelimits=upper,
+    samples=50
+]
+
+\addplot [thick, smooth, domain=-10:10, color = red]{student(x,1)} \closedcycle;
+\addlegendentry{$n = 1$};
+\addplot [thick, smooth, domain=-10:10, color = blue]{student(x,5)} \closedcycle;
+\addlegendentry{$n = 5$}
+\addplot [thick, smooth, domain=-10:10, color = violet]{student(x,25)}
+\closedcycle;
+\addlegendentry{$n = 25$}
+\addplot [thick, smooth, domain=-10:10, color = green]{student(x,100)}
+\closedcycle;
+\addlegendentry{$n = 100$}
+\addplot [thick, smooth, domain=-10:10, color = black]{student(x,1000)}
+\closedcycle;
+\addlegendentry{$n = 1000$}
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{lstlisting}
+
+\clearpage
+
+\section{Теоремы}
+
+\subsection{Иллюстрация закона больших чисел}
+
+Согласно Закону Больших Чисел, среднее значение конечной выборки из фиксированного распределения близко к математическому ожиданию этого распределения.
+
+\begin{center}
+	$ \dfrac{x_1 + x_2 + ... + x_n}{n} \to \mathbb{E}(x_i) $
+\end{center}
+
+На данной картинке изображена динамика среднего значения  выпавшего кубика в зависимости от количества подбрасываний.
+
+Как можно наблюдать, при достаточно большом количестве подбрасываний среднее значение стремтися к математическому ожиданию.
+
+
+
+\begin{center}
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.886274509803922,0.290196078431373,0.2}
+
+\begin{axis}[
+axis background/.style={fill=white!89.8039215686275!black},
+axis line style={white},
+tick align=outside,
+tick pos=left,
+x grid style={white},
+xlabel={Количество подбрасываний},
+xmajorgrids,
+xmin=-24.95, xmax=523.95,
+xtick style={color=white!33.3333333333333!black},
+y grid style={white},
+ylabel={Среднее значение},
+ymajorgrids,
+ymin=0.823333333333333, ymax=4.71,
+ytick style={color=white!33.3333333333333!black}
+]
+\addplot [semithick, color0]
+table {%
+0 1
+1 3.5
+2 4.33333333333333
+3 4
+4 3.4
+5 3.66666666666667
+6 4
+7 3.75
+8 3.88888888888889
+9 4
+10 4.09090909090909
+11 4.25
+12 4.38461538461539
+13 4.5
+14 4.53333333333333
+15 4.4375
+16 4.41176470588235
+17 4.33333333333333
+18 4.26315789473684
+19 4.25
+20 4.09523809523809
+21 4.04545454545455
+22 4.08695652173913
+23 4.16666666666667
+24 4.24
+25 4.23076923076923
+26 4.11111111111111
+27 4
+28 4.03448275862069
+29 4.06666666666667
+30 4.03225806451613
+31 3.9375
+32 3.90909090909091
+33 3.85294117647059
+34 3.77142857142857
+35 3.75
+36 3.81081081081081
+37 3.78947368421053
+38 3.74358974358974
+39 3.775
+40 3.78048780487805
+41 3.71428571428571
+42 3.76744186046512
+43 3.70454545454545
+44 3.66666666666667
+45 3.60869565217391
+46 3.5531914893617
+47 3.5
+48 3.46938775510204
+49 3.44
+50 3.43137254901961
+51 3.48076923076923
+52 3.47169811320755
+53 3.48148148148148
+54 3.43636363636364
+55 3.42857142857143
+56 3.40350877192982
+57 3.36206896551724
+58 3.32203389830508
+59 3.35
+60 3.32786885245902
+61 3.33870967741935
+62 3.36507936507937
+63 3.390625
+64 3.38461538461538
+65 3.42424242424242
+66 3.44776119402985
+67 3.44117647058824
+68 3.44927536231884
+69 3.48571428571429
+70 3.52112676056338
+71 3.55555555555556
+72 3.52054794520548
+73 3.48648648648649
+74 3.48
+75 3.5
+76 3.53246753246753
+77 3.51282051282051
+78 3.51898734177215
+79 3.525
+80 3.53086419753086
+81 3.54878048780488
+82 3.53012048192771
+83 3.54761904761905
+84 3.54117647058824
+85 3.56976744186047
+86 3.59770114942529
+87 3.57954545454545
+88 3.57303370786517
+89 3.56666666666667
+90 3.54945054945055
+91 3.52173913043478
+92 3.51612903225806
+93 3.52127659574468
+94 3.51578947368421
+95 3.53125
+96 3.51546391752577
+97 3.53061224489796
+98 3.51515151515152
+99 3.51
+100 3.51485148514851
+101 3.5
+102 3.48543689320388
+103 3.5
+104 3.48571428571429
+105 3.5
+106 3.47663551401869
+107 3.49074074074074
+108 3.48623853211009
+109 3.5
+110 3.52252252252252
+111 3.51785714285714
+112 3.52212389380531
+113 3.50877192982456
+114 3.50434782608696
+115 3.52586206896552
+116 3.54700854700855
+117 3.55084745762712
+118 3.52941176470588
+119 3.54166666666667
+120 3.52892561983471
+121 3.50819672131148
+122 3.50406504065041
+123 3.51612903225806
+124 3.496
+125 3.51587301587302
+126 3.49606299212598
+127 3.4765625
+128 3.45736434108527
+129 3.45384615384615
+130 3.47328244274809
+131 3.46212121212121
+132 3.45112781954887
+133 3.44776119402985
+134 3.45925925925926
+135 3.44117647058824
+136 3.43795620437956
+137 3.42028985507246
+138 3.41007194244604
+139 3.40714285714286
+140 3.40425531914894
+141 3.38732394366197
+142 3.40559440559441
+143 3.42361111111111
+144 3.44137931034483
+145 3.42465753424658
+146 3.42857142857143
+147 3.42567567567568
+148 3.42281879194631
+149 3.41333333333333
+150 3.40397350993377
+151 3.39473684210526
+152 3.3921568627451
+153 3.37662337662338
+154 3.36129032258065
+155 3.3525641025641
+156 3.34394904458599
+157 3.34177215189873
+158 3.34591194968553
+159 3.35
+160 3.33540372670807
+161 3.33950617283951
+162 3.3558282208589
+163 3.36585365853659
+164 3.35757575757576
+165 3.34939759036145
+166 3.34730538922156
+167 3.33928571428571
+168 3.34319526627219
+169 3.34705882352941
+170 3.33918128654971
+171 3.34302325581395
+172 3.34682080924855
+173 3.35057471264368
+174 3.34857142857143
+175 3.36363636363636
+176 3.36158192090396
+177 3.35955056179775
+178 3.35195530726257
+179 3.34444444444444
+180 3.35359116022099
+181 3.34615384615385
+182 3.33879781420765
+183 3.32608695652174
+184 3.32972972972973
+185 3.33870967741935
+186 3.32620320855615
+187 3.31914893617021
+188 3.31746031746032
+189 3.32631578947368
+190 3.32460732984293
+191 3.31770833333333
+192 3.32642487046632
+193 3.31958762886598
+194 3.32820512820513
+195 3.32142857142857
+196 3.33502538071066
+197 3.34343434343434
+198 3.35175879396985
+199 3.35
+200 3.34328358208955
+201 3.35643564356436
+202 3.35960591133005
+203 3.34803921568627
+204 3.35121951219512
+205 3.35436893203884
+206 3.34299516908213
+207 3.35576923076923
+208 3.35406698564593
+209 3.35714285714286
+210 3.36018957345972
+211 3.36792452830189
+212 3.36619718309859
+213 3.37383177570093
+214 3.37674418604651
+215 3.37962962962963
+216 3.38709677419355
+217 3.38073394495413
+218 3.39269406392694
+219 3.4
+220 3.39366515837104
+221 3.4009009009009
+222 3.40807174887892
+223 3.40625
+224 3.40444444444444
+225 3.39380530973451
+226 3.38766519823789
+227 3.39912280701754
+228 3.41048034934498
+229 3.42173913043478
+230 3.43290043290043
+231 3.42672413793103
+232 3.42918454935622
+233 3.42307692307692
+234 3.43404255319149
+235 3.42372881355932
+236 3.41350210970464
+237 3.41596638655462
+238 3.418410041841
+239 3.41666666666667
+240 3.40663900414938
+241 3.39669421487603
+242 3.39917695473251
+243 3.40573770491803
+244 3.40816326530612
+245 3.40650406504065
+246 3.41295546558704
+247 3.41935483870968
+248 3.4136546184739
+249 3.404
+250 3.41035856573705
+251 3.4047619047619
+252 3.39525691699605
+253 3.38582677165354
+254 3.38039215686275
+255 3.375
+256 3.38132295719844
+257 3.37596899224806
+258 3.36679536679537
+259 3.36538461538462
+260 3.36015325670498
+261 3.3587786259542
+262 3.34980988593156
+263 3.34090909090909
+264 3.33962264150943
+265 3.34962406015038
+266 3.34456928838951
+267 3.35074626865672
+268 3.35315985130112
+269 3.36296296296296
+270 3.37269372693727
+271 3.36764705882353
+272 3.36263736263736
+273 3.37226277372263
+274 3.36363636363636
+275 3.3731884057971
+276 3.36823104693141
+277 3.35971223021583
+278 3.36559139784946
+279 3.37142857142857
+280 3.36298932384342
+281 3.35460992907801
+282 3.34982332155477
+283 3.35915492957746
+284 3.35789473684211
+285 3.35664335664336
+286 3.34843205574913
+287 3.35416666666667
+288 3.35294117647059
+289 3.34827586206897
+290 3.34020618556701
+291 3.3458904109589
+292 3.3481228668942
+293 3.34353741496599
+294 3.34576271186441
+295 3.34121621621622
+296 3.35016835016835
+297 3.35570469798658
+298 3.35451505016722
+299 3.34666666666667
+300 3.35548172757475
+301 3.35430463576159
+302 3.35313531353135
+303 3.35526315789474
+304 3.35081967213115
+305 3.35947712418301
+306 3.36156351791531
+307 3.36688311688312
+308 3.36893203883495
+309 3.36451612903226
+310 3.36655948553055
+311 3.36858974358974
+312 3.37699680511182
+313 3.37579617834395
+314 3.38412698412698
+315 3.38291139240506
+316 3.37854889589905
+317 3.38050314465409
+318 3.37617554858934
+319 3.384375
+320 3.39252336448598
+321 3.40062111801242
+322 3.39628482972136
+323 3.39506172839506
+324 3.39384615384615
+325 3.39263803680982
+326 3.39755351681957
+327 3.40548780487805
+328 3.40425531914894
+329 3.41212121212121
+330 3.41087613293051
+331 3.40361445783133
+332 3.40840840840841
+333 3.41317365269461
+334 3.41194029850746
+335 3.41369047619048
+336 3.40652818991098
+337 3.40828402366864
+338 3.41297935103245
+339 3.41470588235294
+340 3.41642228739003
+341 3.41812865497076
+342 3.42274052478134
+343 3.42732558139535
+344 3.4231884057971
+345 3.41907514450867
+346 3.42363112391931
+347 3.43103448275862
+348 3.42406876790831
+349 3.42857142857143
+350 3.43589743589744
+351 3.4375
+352 3.43342776203966
+353 3.43785310734463
+354 3.44225352112676
+355 3.44662921348315
+356 3.44257703081233
+357 3.44413407821229
+358 3.44846796657382
+359 3.44444444444444
+360 3.44321329639889
+361 3.44198895027624
+362 3.44628099173554
+363 3.43956043956044
+364 3.44383561643836
+365 3.43989071038251
+366 3.44686648501362
+367 3.44836956521739
+368 3.44986449864499
+369 3.45675675675676
+370 3.45013477088949
+371 3.4489247311828
+372 3.45576407506702
+373 3.45187165775401
+374 3.45066666666667
+375 3.44946808510638
+376 3.44562334217507
+377 3.44444444444444
+378 3.44327176781003
+379 3.44736842105263
+380 3.45406824146982
+381 3.45549738219895
+382 3.45953002610966
+383 3.453125
+384 3.45714285714286
+385 3.46113989637306
+386 3.4625322997416
+387 3.46134020618557
+388 3.46529562982005
+389 3.45897435897436
+390 3.45780051150895
+391 3.45663265306122
+392 3.4529262086514
+393 3.4492385786802
+394 3.45316455696203
+395 3.44949494949495
+396 3.44332493702771
+397 3.44723618090452
+398 3.45112781954887
+399 3.4475
+400 3.44638403990025
+401 3.44029850746269
+402 3.43424317617866
+403 3.43811881188119
+404 3.44444444444444
+405 3.44334975369458
+406 3.44717444717445
+407 3.45343137254902
+408 3.45476772616137
+409 3.45365853658537
+410 3.45985401459854
+411 3.46116504854369
+412 3.46246973365617
+413 3.46618357487923
+414 3.46506024096386
+415 3.45913461538462
+416 3.46043165467626
+417 3.45454545454545
+418 3.45346062052506
+419 3.45
+420 3.45130641330166
+421 3.45497630331754
+422 3.45626477541371
+423 3.45047169811321
+424 3.45176470588235
+425 3.45774647887324
+426 3.45667447306792
+427 3.45794392523365
+428 3.45687645687646
+429 3.46046511627907
+430 3.45475638051044
+431 3.45138888888889
+432 3.45727482678984
+433 3.46082949308756
+434 3.45747126436782
+435 3.45183486238532
+436 3.45766590389016
+437 3.46118721461187
+438 3.45785876993166
+439 3.45681818181818
+440 3.45578231292517
+441 3.45701357466063
+442 3.45146726862302
+443 3.45720720720721
+444 3.45393258426966
+445 3.45067264573991
+446 3.44519015659955
+447 3.44419642857143
+448 3.44543429844098
+449 3.44888888888889
+450 3.45011086474501
+451 3.44469026548673
+452 3.44370860927152
+453 3.44933920704846
+454 3.45274725274725
+455 3.45614035087719
+456 3.45295404814004
+457 3.45851528384279
+458 3.45751633986928
+459 3.46086956521739
+460 3.46203904555315
+461 3.46536796536797
+462 3.47084233261339
+463 3.4676724137931
+464 3.46236559139785
+465 3.4656652360515
+466 3.46680942184154
+467 3.46367521367521
+468 3.46695095948827
+469 3.46170212765957
+470 3.45859872611465
+471 3.45762711864407
+472 3.45665961945032
+473 3.4535864978903
+474 3.45052631578947
+475 3.44957983193277
+476 3.45073375262055
+477 3.45606694560669
+478 3.46137787056367
+479 3.46458333333333
+480 3.45945945945946
+481 3.46473029045643
+482 3.46376811594203
+483 3.46487603305785
+484 3.4659793814433
+485 3.46913580246914
+486 3.47022587268994
+487 3.46516393442623
+488 3.4601226993865
+489 3.45510204081633
+490 3.45010183299389
+491 3.45121951219512
+492 3.45436105476673
+493 3.45748987854251
+494 3.45656565656566
+495 3.45766129032258
+496 3.46277665995976
+497 3.46184738955823
+498 3.46092184368737
+499 3.458
+};
+\addplot [thick, blue, dashed]
+table {%
+-24.95 3.5
+523.95 3.5
+};
+\end{axis}
+
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.886274509803922,0.290196078431373,0.2}
+
+\begin{axis}[
+axis background/.style={fill=white!89.8039215686275!black},
+axis line style={white},
+tick align=outside,
+tick pos=left,
+x grid style={white},
+xlabel={Количество подбрасываний},
+xmajorgrids,
+xmin=-24.95, xmax=523.95,
+xtick style={color=white!33.3333333333333!black},
+y grid style={white},
+ylabel={Среднее значение},
+ymajorgrids,
+ymin=0.823333333333333, ymax=4.71,
+ytick style={color=white!33.3333333333333!black}
+]
+\addplot [semithick, color0]
+table {%
+0 1
+1 3.5
+2 4.33333333333333
+3 4
+4 3.4
+5 3.66666666666667
+6 4
+7 3.75
+8 3.88888888888889
+9 4
+10 4.09090909090909
+... 
+490 3.45010183299389
+491 3.45121951219512
+492 3.45436105476673
+493 3.45748987854251
+494 3.45656565656566
+495 3.45766129032258
+496 3.46277665995976
+497 3.46184738955823
+498 3.46092184368737
+499 3.458
+};
+\addplot [thick, blue, dashed]
+table {%
+-24.95 3.5
+523.95 3.5
+};
+\end{axis}
+
+\end{tikzpicture}
+
+\end{lstlisting}
+
+\end{document}
